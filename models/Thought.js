@@ -6,8 +6,8 @@ const { Schema, model } = require('mongoose');
 const reactionSchema = new Schema(
     {
         reactionId: {
-            id: Schema.Types.ObjectId, // Use Mongoose's ObjectId data type
-            default: new Schema.Types.ObjectId, //Default value is set to a new ObjectId????? Why
+            type: Schema.Types.ObjectId,
+            default: () => new Schema.Types.ObjectId(), //Create a new ObjectId at the time we create this reaction
         },
         reactionBody: {
             type: String,
@@ -19,9 +19,9 @@ const reactionSchema = new Schema(
             required: true,
         },
         createdAt: {
-            type: Date, //Date
-            default: Date.now, // Set default value to the current timestamp
-            timestamps: true, // Use a getter method to format the timestamp on query
+            type: Date,
+            default: Date.now, 
+            timestamps: true, 
         },
     }
 );
@@ -36,9 +36,9 @@ const thoughtSchema = new Schema(
             max: [280, 'Cannot exceed 280'],
         },
         createdAt: {
-            type: Date, //Date
-            default: Date.now, // Set default value to the current timestamp
-            timestamps: true, // Use a getter method to format the timestamp on query
+            type: Date,
+            default: Date.now, 
+            timestamps: true, 
         },
         username: { //the user that created this thought
             type: String,
@@ -50,22 +50,21 @@ const thoughtSchema = new Schema(
         toJSON: {
             virtuals: true,
         },
-        id: false,
     }
 );
 
 // Schema Settings
-// Create a virtual called reactionCount that retrieves the length of the thought's reactions array field on query.
+// Create a virtual called reactionCount that retrieves the length of the thought's reactions array field on query
 thoughtSchema.virtual('reactionCount')
     .get(function () {
         return this.reactions.length;
     })
-    .set(function (data) { //CHECK IF NEED THIS???
+    .set(function (data) { 
         this.set({
             reactions: [...data]
         })
     });
 
-//initiatlize our User model
-const Thought = model('Thought', thoughtSchema);
+//initiatlize our Thought model
+const Thought = model('thought', thoughtSchema);
 module.exports = Thought;
