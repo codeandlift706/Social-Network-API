@@ -13,9 +13,11 @@ module.exports = {
     },
 
     //GET a single user by its _id and populated thought and friend data
-    async getSingleUser(req, res) { //GET POPULATED THOUGHT AND FRIEND DATA TOO
+    async getSingleUser(req, res) {
         try {
-            const user = await User.findOne({ _id: req.params.userId });
+            const user = await User.findOne({ _id: req.params.userId })
+            .populate('thoughts') //this references the field name in the user model
+            .populate('friends'); //this references the field name in the user model
             if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
             }

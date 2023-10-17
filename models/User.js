@@ -15,13 +15,14 @@ const userSchema = new Schema(
             unique: true,
             required: true,
         },
-        thoughts: [{ type: Schema.Types.ObjectId, ref: 'thought' }],
-        friends: [{ type: Schema.Types.ObjectId, ref: 'user' }],
+        thoughts: [{ type: Schema.Types.ObjectId, ref: 'thought' }], //users can have many thoughts
+        friends: [{ type: Schema.Types.ObjectId, ref: 'user' }], //users can have many friends
     },
     {
         toJSON: {
             virtuals: true,
         },
+        id: false,
     }
 );
 
@@ -31,12 +32,12 @@ const userSchema = new Schema(
 userSchema.virtual('friendCount')
     .get(function () {
         return this.friends.length;
-    })
-    .set(function (data) { 
-        this.set({
-            friends: [...data]
-        })
     });
+    // .set(function (data) { 
+    //     this.set({
+    //         friends: [...data]
+    //     })
+    // });
 
 //initiatlize our User model
 const User = model('user', userSchema);
