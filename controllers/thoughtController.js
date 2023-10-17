@@ -25,7 +25,12 @@ module.exports = {
     },
 
     async createThought(req, res) {
-
+        try {
+            const dbThoughtData = await Thought.create(req.body);
+            res.json(dbThoughtData);
+        } catch (err) {
+            res.status(500).json(err)
+        }
     },
     async updateThought(req, res) {
 
