@@ -14,8 +14,8 @@ const userSchema = new Schema({
         unique: true,
         required: true,
     },
-    thoughts: [{ type: Schema.Types.ObjectId, ref: 'thought' }], //user can have many thoughts
-    friends: [{type: Schema.Types.ObjectId, ref: 'user' }], //user can have many friends, self-referencing
+    thoughts: [{ type: Schema.Types.ObjectId, ref: 'thought' }], //user can have many thoughts ???????? or thoughts._id
+    friends: [{type: Schema.Types.ObjectId, ref: 'user' }], //user can have many friends, self-referencing ?????????? or user._id
 
     toJSON: {
         virtuals: true,

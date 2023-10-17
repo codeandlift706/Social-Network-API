@@ -1,6 +1,8 @@
 const { User } = require('../models');
 
 module.exports = {
+
+    //GET all users
     async getAllUsers(req, res) {
         try {
             const users = await User.find();
@@ -10,7 +12,8 @@ module.exports = {
         }
     },
 
-    async getSingleUser(req, res) {
+    //GET a single user by its _id and populated thought and friend data
+    async getSingleUser(req, res) { //GET POPULATED THOUGHT AND FRIEND DATA TOO
         try {
             const user = await User.findOne({ _id: req.params.userId });
             if (!user) {
@@ -22,6 +25,7 @@ module.exports = {
         }
     },
 
+    //POST a new user
     async createUser(req, res) {
         try {
             const dbUserData = await User.create(req.body);
@@ -31,6 +35,7 @@ module.exports = {
         }
     },
 
+    //PUT to update a user by its _id
     async updateUser(req, res) {
         try {
             const result = await User.findOneAndUpdate({ _id: req.params.userId }, { new: true });
@@ -42,6 +47,7 @@ module.exports = {
         }
     },
 
+    //DELETE to remove user by its _id
     async deleteUser(req, res) {
         try {
             const result = await User.findOneAndDelete({ _id: req.params.userId });
@@ -53,19 +59,44 @@ module.exports = {
         }
     },
 
+    //POST to add a new friend to a user's friend list
     async addFriend(req, res) {
         try {
-
+            // const user = await User.create(req.body);
+            const user = await User.findOneAndUpdate( //?????????
+                { id: req.body.userId },
+                { $push: { friends: user._id } },
+                { new: true } //???????
+            );
+            if (!user) {
+                return res
+                    .status(404)
+                    .json({ message: 'No users with this ID to add to their friend list ' });
+            }
+            res.json({ message: 'Friend added!' });
         } catch (err) {
-
+            console.error(err)
+            res.status(500).json(err);
         }
     },
 
+    //DELETE to remove a friend from a user's friend list
     async removeFriend(req, res) {
         try {
-
+            const user = await User.findOneAndRemove( //?????????
+                { id: req.body.userId },
+                { $shift: { friends: user._id } },
+                { new: true } //???????
+            );
+            if (!user) {
+                return res
+                    .status(404)
+                    .json({ message: 'No users with this ID to remove from the friend list ' });
+            }
+            res.json({ message: 'Friend removed!' });
         } catch (err) {
-
+            console.error(err)
+            res.status(500).json(err);
         }
     },
 };
