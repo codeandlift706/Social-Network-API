@@ -45,7 +45,7 @@ module.exports = {
     },
     async updateThought(req, res) {
         try {
-            const result = await Thought.findOneAndUpdate({}, {}, { new: true });
+            const result = await Thought.findOneAndUpdate( { _id: req.params.thoughtId }, { new: true });
             res.status(200).json(result);
             console.log(`Updated thought ${result}`);
         } catch (err) {
@@ -56,9 +56,12 @@ module.exports = {
 
     async deleteThought(req, res) {
         try {
-
+            const result = await Thought.findOneAndDelete({ _id: req.params.thoughtId });
+            res.status(200).json(result);
+            console.log(`Deleted thought ${result}`);
         } catch (err) {
-
+            console.log('Uh Oh, something went wrong..Could not delete thought.');
+            res.status(500).json({ message: 'Something went wrong! Could not delete thought.' });
         }
     },
     async createReaction(req, res) {

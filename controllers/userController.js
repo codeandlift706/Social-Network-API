@@ -33,7 +33,7 @@ module.exports = {
 
     async updateUser(req, res) {
         try {
-            const result = await User.findOneAndUpdate({ userId: req.params.userId }, { new: true });
+            const result = await User.findOneAndUpdate({ _id: req.params.userId }, { new: true });
             res.status(200).json(result);
             console.log(`Updated user ${result}`);
         } catch (err) {
@@ -44,9 +44,12 @@ module.exports = {
 
     async deleteUser(req, res) {
         try {
-
+            const result = await User.findOneAndDelete({ _id: req.params.userId });
+            res.status(200).json(result);
+            console.log(`Deleted user ${result}`);
         } catch (err) {
-
+            console.log('Uh Oh, something went wrong..Could not delete user.');
+            res.status(500).json({ message: 'Something went wrong! Could not delete user.' });
         }
     },
 
