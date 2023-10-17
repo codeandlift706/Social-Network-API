@@ -40,9 +40,9 @@ module.exports = {
     //PUT to update a user by its _id
     async updateUser(req, res) {
         try {
-            const result = await User.findOneAndUpdate({ _id: req.params.userId }, { new: true });
-            res.status(200).json(result);
-            console.log(`Updated user ${result}`);
+            const user = await User.findOneAndUpdate({ _id: req.params.userId }, { new: true });
+            res.status(200).json(user);
+            console.log(`Updated user ${user}`);
         } catch (err) {
             console.log('Uh Oh, something went wrong..Could not update user.');
             res.status(500).json({ message: 'Something went wrong! Could not update user.' });
@@ -52,9 +52,9 @@ module.exports = {
     //DELETE to remove user by its _id
     async deleteUser(req, res) {
         try {
-            const result = await User.findOneAndDelete({ _id: req.params.userId });
-            res.status(200).json(result);
-            console.log(`Deleted user ${result}`);
+            const user = await User.findOneAndDelete({ _id: req.params.userId });
+            res.status(200).json(user);
+            console.log(`Deleted user ${user}`);
         } catch (err) {
             console.log('Uh Oh, something went wrong..Could not delete user.');
             res.status(500).json({ message: 'Something went wrong! Could not delete user.' });
