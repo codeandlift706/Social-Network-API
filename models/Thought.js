@@ -1,5 +1,30 @@
 const { Schema, model } = require('mongoose');
 
+
+//reactionSchema defines the shape of the subdocument/child document
+//Not a model - will be used as the reaction field's subdocument schema in the Thought model
+const reactionSchema = new Schema({
+    reactionId: {
+        id: Schema.Types.ObjectId, // Use Mongoose's ObjectId data type
+        default: new Schema.Types.ObjectId, //Default value is set to a new ObjectId????? Why
+    },
+    reactionBody: {
+        type: String,
+        required: true,
+        max: [280, 'Cannot exceed 280'],
+    },
+    username: {
+        type: String,
+        required: true,
+    },
+    createdAt: {
+        type: Date, //Date
+        default: Date.now, // Set default value to the current timestamp
+        timestamps: true, // Use a getter method to format the timestamp on query
+    },
+});
+
+//thoughtSchema defines the shape of the parent document
 const thoughtSchema = new Schema({
     thoughtText: {
         type: String,
@@ -16,34 +41,16 @@ const thoughtSchema = new Schema({
         type: String,
         required: true,
     },
-    reactions: [{ type: Schema.Types.ObjectId, ref: 'thought' }], //these are like replies
+    reactions: [reactionSchema], //these are like replies
 
     toJSON: {
         virtuals: true,
     }
-})
+});
 
-
-// thoughtText
-// String
-// Required
-// Must be between 1 and 280 characters
-// createdAt
-
-// Date
-// Set default value to the current timestamp
-// Use a getter method to format the timestamp on query
-// username (The user that created this thought)
-
-// String
-// Required
-// reactions (These are like replies)
-
-// Array of nested documents created with the reactionSchema
 // Schema Settings
-
 // Create a virtual called reactionCount that retrieves the length of the thought's reactions array field on query.
-userSchema.virtual('reactionCount')
+thoughtSchema.virtual('reactionCount')
     .get(function () {
         return this.reactions.length;
     })
@@ -54,5 +61,5 @@ userSchema.virtual('reactionCount')
     });
 
 //initiatlize our User model
-const Thought = model('thought', thoughtSchema);
+const Thought = model('Thought', thoughtSchema);
 module.exports = Thought;
