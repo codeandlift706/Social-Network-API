@@ -44,15 +44,35 @@ module.exports = {
         }
     },
     async updateThought(req, res) {
-
+        try {
+            const result = await Thought.findOneAndUpdate({}, {}, { new: true });
+            res.status(200).json(result);
+            console.log(`Updated thought ${result}`);
+        } catch (err) {
+            console.log('Uh Oh, something went wrong..Could not update thought.');
+            res.status(500).json({ message: 'Something went wrong! Could not update thought.' });
+        }
     },
-    async deleteThought(req, res) {
 
+    async deleteThought(req, res) {
+        try {
+
+        } catch (err) {
+
+        }
     },
     async createReaction(req, res) {
+        try {
 
+        } catch (err) {
+
+        }
     },
     async removeReaction(req, res) {
+        try {
 
+        } catch (err) {
+
+        }
     },
 };

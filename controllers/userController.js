@@ -32,16 +32,37 @@ module.exports = {
     },
 
     async updateUser(req, res) {
-
+        try {
+            const result = await User.findOneAndUpdate({ userId: req.params.userId }, { new: true });
+            res.status(200).json(result);
+            console.log(`Updated user ${result}`);
+        } catch (err) {
+            console.log('Uh Oh, something went wrong..Could not update user.');
+            res.status(500).json({ message: 'Something went wrong! Could not update user.' });
+        }
     },
 
     async deleteUser(req, res) {
+        try {
 
+        } catch (err) {
+
+        }
     },
+
     async addFriend(req, res) {
+        try {
 
+        } catch (err) {
+
+        }
     },
-    async removeFriend(req, res) {
 
+    async removeFriend(req, res) {
+        try {
+
+        } catch (err) {
+
+        }
     },
 };
