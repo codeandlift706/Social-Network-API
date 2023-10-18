@@ -90,7 +90,7 @@ module.exports = {
     async createReaction(req, res) {
         try {
             const thought = await Thought.findOneAndUpdate( 
-                { _id: req.body.thoughtId }, //find a thought by its thoughtId
+                { _id: req.params.thoughtId }, //find a thought by its thoughtId
                 { $addToSet: { reactions: req.body } }, //add a reaction to the reactions array with addToSet
                 { runValidators: true, new: true }
             );
@@ -109,8 +109,8 @@ module.exports = {
     //DELETE to pull and remove a reaction by the reaction's reactionId value
     async removeReaction(req, res) {
         try {
-            const thought = await Thought.findOneAndRemove( //find a thought by its thoughtId
-                { _id: req.body.thoughtId },
+            const thought = await Thought.findOneAndUpdate( //find a thought by its thoughtId
+                { _id: req.params.thoughtId },
                 { $pull: { reactions: { reactionId: req.params.reactionId } } }, //pulls the reaction out of the reactions array based on the reactionId parameter
                 { runValidators: true, new: true }
             );
