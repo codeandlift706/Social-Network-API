@@ -88,8 +88,8 @@ module.exports = {
     async addFriend(req, res) {
         try {
             const user = await User.findOneAndUpdate( 
-                { _id: req.body.userId }, //find a user by their userId
-                { $addToSet: { friends: user._id } }, //push into the friends array, by the user's userId path parameter
+                { _id: req.params.userId }, //find a user by their userId in the params
+                { $addToSet: { friends: req.params.friendId } }, //push into the friends array, by the user's userId path parameter
                 { new: true }
             );
             if (!user) {
@@ -106,10 +106,10 @@ module.exports = {
     //DELETE to remove a friend from a user's friend list
     async removeFriend(req, res) {
         try {
-            const user = await User.findOneAndRemove( 
-                { _id: req.body.userId }, //find a user by their userId
-                { $pull: { friends: req.body.userId } }, //pull them from the friends array, by the user's userId path parameter
-                { new: true } //???????
+            const user = await User.findOneAndUpdate( 
+                { _id: req.params.userId }, //find a user by their userId
+                { $pull: { friends: req.params.friendId } }, //pull them from the friends array, by the user's userId path parameter
+                { new: true } 
             );
             if (!user) {
                 return res.status(404).json({ message: 'No users with this ID to remove from the friend list ' });
