@@ -47,7 +47,7 @@ This project is under the MIT license.
 
 
 ## Contribution
-The assignment provided instructions for setting up the database models and routes. The coding in the server.js file (imports, boilerplate middleware, port listener), the coding in the models files (set up its fields and rules), the coding in the index file (establishing the relations between models), and the coding in the controllers files (GET, POST, PUT, DELETE calls) using the MVC framework -all the additions- are credited to the curriculum taught in the UCI coding boot camp.
+The assignment provided instructions for setting up the database models and routes. The coding in the server.js file (imports, boilerplate middleware, port listener), the coding in the models files (set up its fields and rules), the coding in the index file (establishing the relations between models), and the coding in the controllers files (GET, POST, PUT, DELETE calls) using the MVC framework -all the additions- are credited to the curriculum taught in the UCI coding boot camp. AskBCS also provided assistance with the addFriend and removeReaction calls.
 
 
 For validations, getters, setters, and GET/POST/PUT/DELETE call syntax: https://mongoosejs.com/docs/validation.html#the-unique-option-is-not-a-validator 
