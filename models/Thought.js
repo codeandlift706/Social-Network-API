@@ -16,11 +16,11 @@ const thoughtSchema = new Schema(
             default: Date.now, 
             timestamps: true, 
         },
-        username: { //the user that created this thought
+        username: { 
             type: String,
             required: true,
         },
-        reactions: [reactionSchema], //these are like replies
+        reactions: [reactionSchema],
     },
     {
         toJSON: {
