@@ -89,7 +89,7 @@ module.exports = {
     //POST to create a reaction stored in a single thought's reactions array field
     async addReaction(req, res) {
         try {
-            const thought = await Thought.findOneAndUpdate( 
+            const thought = await Thought.findOneAndUpdate(
                 { _id: req.params.thoughtId }, //find a thought by its thoughtId
                 { $addToSet: { reactions: req.body } }, //add a reaction to the reactions array with addToSet
                 { runValidators: true, new: true }

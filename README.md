@@ -13,7 +13,7 @@
 
 
 ## Description
-The purpose of this project is to build an API for a social network web application where users can share their thoughts, react to friends’ thoughts, and create a friend list.
+The purpose of this project is to build an API for a social network web application where users can share their thoughts, react to friends’ thoughts, and create a friend list. View the application's functionality here: https://drive.google.com/file/d/197kZ45mBUmqM12JN_hLi1qhese3szY-A/view?usp=sharing.
 
 
 ## Installation
@@ -57,7 +57,7 @@ To complete the markdown for the README, the source is: https://www.markdownguid
 
 
 ## Tests
-To test the functionality of the Social-Network-API, users can clone this repo, run ‘npm install’ in the command line, and start the application’s server with “node server” in the command line. View the video for the step-by-step set-up and for the Insomnia calls: 
+To test the functionality of the Social-Network-API, users can clone this repo, run ‘npm install’ in the command line, and start the application’s server with “node server” in the command line. View the video for the step-by-step set-up and for the Insomnia calls: https://drive.google.com/file/d/197kZ45mBUmqM12JN_hLi1qhese3szY-A/view?usp=sharing.
 For Insomnia: Once the server is running, open Insomnia and make calls with the base domain http://localhost:3001, with the varying parameters in routes/api/index file. First create the data with the POST calls in order to then execute GET, PUT, and DELETE.
 
 

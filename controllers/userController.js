@@ -6,8 +6,8 @@ module.exports = {
     async getAllUsers(req, res) {
         try {
             const users = await User.find()
-            .populate('thoughts') //this references the field name, thoughts, in the user model
-            .populate('friends'); //this references the field name, friends, in the user model
+                .populate('thoughts') //this references the field name, thoughts, in the user model
+                .populate('friends'); //this references the field name, friends, in the user model
 
             return res.json(users);
         } catch (err) {
@@ -21,8 +21,8 @@ module.exports = {
             const user = await User.findOne({ _id: req.params.userId })
                 .populate('thoughts') //this references the field name, thoughts, in the user model
                 .populate('friends'); //this references the field name, friends, in the user model
-            
-                if (!user) {
+
+            if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
             }
 
@@ -46,10 +46,10 @@ module.exports = {
     async updateUser(req, res) {
         try {
             const user = await User.findOneAndUpdate(
-                { _id: req.params.userId }, 
+                { _id: req.params.userId },
                 { $set: req.body },
                 { runValidators: true, new: true }
-                );
+            );
 
             if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
@@ -69,17 +69,18 @@ module.exports = {
         try {
             const user = await User.findOneAndDelete(
                 { _id: req.params.userId }
-                );
-            
+            );
+
             if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
             }
-            
-            await Thought.deleteMany({ _id: { in: user.thoughts } });
+
+            // await Thought.deleteMany({ _id: { in: user.thoughts } });
             return res.json({ message: 'User and associated thoughts deleted!' })
 
         } catch (err) {
-            console.log('Something went wrong...Could not delete user.');
+            console.log(err);
+            // console.log('Something went wrong...Could not delete user.');
             return res.status(500).json({ message: 'Something went wrong! Could not delete user.' });
         }
     },
@@ -87,7 +88,7 @@ module.exports = {
     //POST to add a new friend to a user's friend list
     async addFriend(req, res) {
         try {
-            const user = await User.findOneAndUpdate( 
+            const user = await User.findOneAndUpdate(
                 { _id: req.params.userId }, //find a user by their userId in the params
                 { $addToSet: { friends: req.params.friendId } }, //push into the friends array, by the user's userId path parameter
                 { new: true }
@@ -106,10 +107,10 @@ module.exports = {
     //DELETE to remove a friend from a user's friend list
     async removeFriend(req, res) {
         try {
-            const user = await User.findOneAndUpdate( 
+            const user = await User.findOneAndUpdate(
                 { _id: req.params.userId }, //find a user by their userId
                 { $pull: { friends: req.params.friendId } }, //pull them from the friends array, by the user's userId path parameter
-                { new: true } 
+                { new: true }
             );
             if (!user) {
                 return res.status(404).json({ message: 'No users with this ID to remove from the friend list ' });
