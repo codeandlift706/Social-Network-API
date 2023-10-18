@@ -99,7 +99,7 @@ module.exports = {
             return res.json({ message: 'Friend added!' });
         } catch (err) {
             console.error(err)
-            return res.status(500).json(err);
+            return res.status(500).json({ message: 'Something went wrong! Could not add friend.' });
         }
     },
 
@@ -118,7 +118,7 @@ module.exports = {
             return res.json({ message: 'Friend removed!' });
         } catch (err) {
             console.error(err)
-            return res.status(500).json(err);
+            return res.status(500).json({ message: 'Something went wrong! Could not remove friend.' });
         }
     },
 };

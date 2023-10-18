@@ -102,7 +102,7 @@ module.exports = {
             return res.json({ message: 'Friend added!' });
         } catch (err) {
             console.error(err)
-            return res.status(500).json(err);
+            return res.status(500).json({ message: 'Something went wrong! Could not create reaction.' });
         }
     },
 
@@ -123,7 +123,7 @@ module.exports = {
 
         } catch (err) {
             console.error(err)
-            return res.status(500).json(err);
+            return res.status(500).json({ message: 'Something went wrong! Could not remove reaction.' });
         }
     },
 };
