@@ -16,11 +16,13 @@ module.exports = {
     async getSingleUser(req, res) {
         try {
             const user = await User.findOne({ _id: req.params.userId })
-            .populate('thoughts') //this references the field name in the user model
-            .populate('friends'); //this references the field name in the user model
-            if (!user) {
+                .populate('thoughts') //this references the field name, thoughts, in the user model
+                .populate('friends'); //this references the field name, friends, in the user model
+            
+                if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
             }
+
             res.json(user);
         } catch (err) {
             res.status(500).json(err);
@@ -41,6 +43,11 @@ module.exports = {
     async updateUser(req, res) {
         try {
             const user = await User.findOneAndUpdate({ _id: req.params.userId }, { new: true });
+
+            if (!user) {
+                return res.status(404).json({ message: 'No user with that ID' });
+            }
+
             res.status(200).json(user);
             console.log(`Updated user ${user}`);
         } catch (err) {
@@ -50,13 +57,20 @@ module.exports = {
     },
 
     //DELETE to remove user by its _id
+    //BONUS: Remove a user's associated thoughts when deleted
     async deleteUser(req, res) {
         try {
             const user = await User.findOneAndDelete({ _id: req.params.userId });
-            res.status(200).json(user);
-            console.log(`Deleted user ${user}`);
+            
+            if (!user) {
+                return res.status(404).json({ message: 'No user with that ID' });
+            }
+            
+            await Thought.deleteMany({ _id: { $in: user.thoughts } });
+            res.json({ message: 'User and associated thoughts deleted!' })
+
         } catch (err) {
-            console.log('Uh Oh, something went wrong..Could not delete user.');
+            console.log('Something went wrong...Could not delete user.');
             res.status(500).json({ message: 'Something went wrong! Could not delete user.' });
         }
     },
