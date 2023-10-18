@@ -2,7 +2,7 @@ const { Thought, User } = require('../models');
 
 module.exports = {
 
-    //GET all thoughts GOOD!
+    //GET all thoughts
     async getAllThoughts(req, res) {
         try {
             const thoughts = await Thought.find();
@@ -12,7 +12,7 @@ module.exports = {
         }
     },
 
-    //GET to get a single thought by its _id GOOD!
+    //GET to get a single thought by its _id
     async getSingleThought(req, res) {
         try {
             const thought = await Thought.findOne({ _id: req.params.thoughtId });
@@ -27,7 +27,7 @@ module.exports = {
         }
     },
 
-    // POST to create a new thought (don't forget to push the created thought's _id to the associated user's thoughts array field)  GOOD!
+    // POST to create a new thought (don't forget to push the created thought's _id to the associated user's thoughts array field)
     async createThought(req, res) {
         try {
             const thought = await Thought.create(req.body);
@@ -47,7 +47,7 @@ module.exports = {
         }
     },
 
-    //PUT to update a thought by its _id GOOD!
+    //PUT to update a thought by its _id
     async updateThought(req, res) {
         try {
             const thought = await Thought.findOneAndUpdate(
@@ -67,7 +67,7 @@ module.exports = {
         }
     },
 
-    //DELETE to remove a thought by its _id GOOD!
+    //DELETE to remove a thought by its _id
     async deleteThought(req, res) {
         try {
             const thought = await Thought.findOneAndDelete(
@@ -87,7 +87,7 @@ module.exports = {
     },
 
     //POST to create a reaction stored in a single thought's reactions array field
-    async createReaction(req, res) {
+    async addReaction(req, res) {
         try {
             const thought = await Thought.findOneAndUpdate( 
                 { _id: req.params.thoughtId }, //find a thought by its thoughtId
@@ -99,7 +99,7 @@ module.exports = {
                 return res.status(404).json({ message: 'No thoughts with this id!' });
             }
 
-            return res.json({ message: 'Friend added!' });
+            return res.json({ message: 'Reaction added!' });
         } catch (err) {
             console.error(err)
             return res.status(500).json({ message: 'Something went wrong! Could not create reaction.' });
@@ -111,7 +111,7 @@ module.exports = {
         try {
             const thought = await Thought.findOneAndUpdate( //find a thought by its thoughtId
                 { _id: req.params.thoughtId },
-                { $pull: { reactions: { reactionId: req.params.reactionId } } }, //pulls the reaction out of the reactions array based on the reactionId parameter
+                { $pull: { reactions: { reactionId: req.body.reactionId } } }, //pulls the reaction out of the reactions array based on the reactionId value
                 { runValidators: true, new: true }
             );
 
