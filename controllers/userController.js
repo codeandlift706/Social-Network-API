@@ -78,16 +78,15 @@ module.exports = {
     //POST to add a new friend to a user's friend list
     async addFriend(req, res) {
         try {
-            // const user = await User.create(req.body);
-            const user = await User.findOneAndUpdate( //?????????
-                { id: req.body.userId },
-                { $push: { friends: user._id } },
-                { new: true } //???????
+            const user = await User.findOneAndUpdate( 
+                { _id: req.body.userId }, //find a user by their userId
+                { $push: { friends: req.body.userId } }, //push into the friends array, by the user's userId path parameter
+                { new: true }
             );
             if (!user) {
                 return res
                     .status(404)
-                    .json({ message: 'No users with this ID to add to their friend list ' });
+                    .json({ message: 'No users with this ID to add to their friend list' });
             }
             res.json({ message: 'Friend added!' });
         } catch (err) {
@@ -99,9 +98,9 @@ module.exports = {
     //DELETE to remove a friend from a user's friend list
     async removeFriend(req, res) {
         try {
-            const user = await User.findOneAndRemove( //?????????
-                { id: req.body.userId },
-                { $shift: { friends: user._id } },
+            const user = await User.findOneAndRemove( 
+                { _id: req.body.userId }, //find a user by their userId
+                { $pull: { friends: req.body.userId } }, //pull them from the friends array, by the user's userId path parameter
                 { new: true } //???????
             );
             if (!user) {
