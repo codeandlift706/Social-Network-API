@@ -2,7 +2,7 @@ const { Thought, User } = require('../models');
 
 module.exports = {
 
-    //GET all thoughts
+    //GET all thoughts GOOD!
     async getAllThoughts(req, res) {
         try {
             const thoughts = await Thought.find();
@@ -12,7 +12,7 @@ module.exports = {
         }
     },
 
-    //GET to get a single thought by its _id
+    //GET to get a single thought by its _id GOOD!
     async getSingleThought(req, res) {
         try {
             const thought = await Thought.findOne({ _id: req.params.thoughtId });
@@ -27,30 +27,32 @@ module.exports = {
         }
     },
 
-    // POST to create a new thought (don't forget to push the created thought's _id to the associated user's thoughts array field)
+    // POST to create a new thought (don't forget to push the created thought's _id to the associated user's thoughts array field)  GOOD!
     async createThought(req, res) {
         try {
             const thought = await Thought.create(req.body);
             const user = await User.findOneAndUpdate(
-                { _id: req.body.userId },
+                { _id: req.body.userId }, //include userId: "" in the req.body
                 { $addToSet: { thoughts: thought._id } },
                 { new: true }
             );
             if (!user) {
                 return res.status(404).json({ message: 'Thought created, but no users with this ID...' });
             }
-            res.json({ message: 'Thought created!' });
+
+            return res.json({ message: 'Thought created!' });
         } catch (err) {
             console.error(err)
             return res.status(500).json(err);
         }
     },
 
-    //PUT to update a thought by its _id
+    //PUT to update a thought by its _id GOOD!
     async updateThought(req, res) {
         try {
             const thought = await Thought.findOneAndUpdate(
                 { _id: req.params.thoughtId },
+                { $set: req.body },
                 { runValidators: true, new: true }
             );
 
@@ -65,7 +67,7 @@ module.exports = {
         }
     },
 
-    //DELETE to remove a thought by its _id
+    //DELETE to remove a thought by its _id GOOD!
     async deleteThought(req, res) {
         try {
             const thought = await Thought.findOneAndDelete(

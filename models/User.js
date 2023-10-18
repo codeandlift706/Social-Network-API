@@ -15,8 +15,8 @@ const userSchema = new Schema(
             unique: true,
             required: true,
         },
-        thoughts: [{ type: Schema.Types.ObjectId, ref: 'thought' }], //users can have many thoughts
-        friends: [{ type: Schema.Types.ObjectId, ref: 'user' }], //users can have many friends
+        thoughts: [{ type: Schema.Types.ObjectId, ref: 'thought', }], //users can have many thoughts
+        friends: [{ type: Schema.Types.ObjectId, ref: 'user', }], //users can have many friends
     },
     {
         toJSON: {
