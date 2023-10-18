@@ -6,9 +6,9 @@ module.exports = {
     async getAllUsers(req, res) {
         try {
             const users = await User.find();
-            res.json(users);
+            return res.json(users);
         } catch (err) {
-            res.status(500).json(err);
+            return res.status(500).json(err);
         }
     },
 
@@ -23,9 +23,9 @@ module.exports = {
                 return res.status(404).json({ message: 'No user with that ID' });
             }
 
-            res.json(user);
+            return res.json(user);
         } catch (err) {
-            res.status(500).json(err);
+            return res.status(500).json(err);
         }
     },
 
@@ -33,26 +33,29 @@ module.exports = {
     async createUser(req, res) {
         try {
             const user = await User.create(req.body);
-            res.json(user);
+            return res.json(user);
         } catch (err) {
-            res.status(500).json(err)
+            return res.status(500).json(err)
         }
     },
 
     //PUT to update a user by its _id
     async updateUser(req, res) {
         try {
-            const user = await User.findOneAndUpdate({ _id: req.params.userId }, { new: true });
+            const user = await User.findOneAndUpdate(
+                { _id: req.params.userId }, 
+                { runValidators: true, new: true }
+                );
 
             if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
             }
 
-            res.status(200).json(user);
+            return res.status(200).json(user);
             console.log(`Updated user ${user}`);
         } catch (err) {
             console.log('Uh Oh, something went wrong..Could not update user.');
-            res.status(500).json({ message: 'Something went wrong! Could not update user.' });
+            return res.status(500).json({ message: 'Something went wrong! Could not update user.' });
         }
     },
 
@@ -60,18 +63,20 @@ module.exports = {
     //BONUS: Remove a user's associated thoughts when deleted
     async deleteUser(req, res) {
         try {
-            const user = await User.findOneAndDelete({ _id: req.params.userId });
+            const user = await User.findOneAndDelete(
+                { _id: req.params.userId }
+                );
             
             if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
             }
             
             await Thought.deleteMany({ _id: { $in: user.thoughts } });
-            res.json({ message: 'User and associated thoughts deleted!' })
+            return res.json({ message: 'User and associated thoughts deleted!' })
 
         } catch (err) {
             console.log('Something went wrong...Could not delete user.');
-            res.status(500).json({ message: 'Something went wrong! Could not delete user.' });
+            return res.status(500).json({ message: 'Something went wrong! Could not delete user.' });
         }
     },
 
@@ -84,14 +89,13 @@ module.exports = {
                 { new: true }
             );
             if (!user) {
-                return res
-                    .status(404)
-                    .json({ message: 'No users with this ID to add to their friend list' });
+                return res.status(404).json({ message: 'No users with this ID to add to their friend list' });
             }
-            res.json({ message: 'Friend added!' });
+
+            return res.json({ message: 'Friend added!' });
         } catch (err) {
             console.error(err)
-            res.status(500).json(err);
+            return res.status(500).json(err);
         }
     },
 
@@ -104,14 +108,13 @@ module.exports = {
                 { new: true } //???????
             );
             if (!user) {
-                return res
-                    .status(404)
-                    .json({ message: 'No users with this ID to remove from the friend list ' });
+                return res.status(404).json({ message: 'No users with this ID to remove from the friend list ' });
             }
-            res.json({ message: 'Friend removed!' });
+
+            return res.json({ message: 'Friend removed!' });
         } catch (err) {
             console.error(err)
-            res.status(500).json(err);
+            return res.status(500).json(err);
         }
     },
 };
